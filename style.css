@@ -1,8 +1,32 @@
 body{
-    background-color: #f5f5f5;
+    background-color: #f4f7fa;
     font-family: Arial, sans-serif;
 }
 
-h1{
-    font-weight: bold;
+/* HERO SECTION */
+
+.hero-section{
+    height: 80vh;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438');
+
+    background-size: cover;
+    background-position: center;
+}
+
+/* CARD */
+
+.card{
+    border: none;
+    border-radius: 15px;
+}
+
+/* HABIT CARD */
+
+.habit-card{
+    transition: 0.3s;
+}
+
+.habit-card:hover{
+    transform: translateY(-5px);
 }

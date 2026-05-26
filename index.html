@@ -13,11 +13,199 @@
 </head>
 <body>
 
-    <h1 class="text-center mt-5">
-        Fitness & Habit Tracker
-    </h1>
+    <!-- NAVBAR -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+
+            <a class="navbar-brand fw-bold" href="#">
+                Fitness Tracker
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            Home
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin.html">
+                            Admin Panel
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+
+    <section class="hero-section text-center text-white d-flex align-items-center">
+
+        <div class="container">
+
+            <h1 class="display-4 fw-bold">
+                Fitness & Habit Tracker
+            </h1>
+
+            <p class="lead">
+                Track your daily habits and fitness goals easily.
+            </p>
+
+            <button class="btn btn-warning btn-lg mt-3">
+                Start Tracking
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- HABIT FORM -->
+
+    <section class="container my-5">
+
+        <div class="card shadow p-4">
+
+            <h2 class="mb-4 text-center">
+                Add New Habit
+            </h2>
+
+            <form id="habitForm">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Habit Name
+                        </label>
+
+                        <input type="text" class="form-control" id="habitName">
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Category
+                        </label>
+
+                        <select class="form-select" id="habitCategory">
+
+                            <option value="">
+                                Select Category
+                            </option>
+
+                            <option>
+                                Fitness
+                            </option>
+
+                            <option>
+                                Study
+                            </option>
+
+                            <option>
+                                Health
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Target Days
+                        </label>
+
+                        <input type="number" class="form-control" id="targetDays">
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Status
+                        </label>
+
+                        <select class="form-select" id="habitStatus">
+
+                            <option value="">
+                                Select Status
+                            </option>
+
+                            <option>
+                                Active
+                            </option>
+
+                            <option>
+                                Completed
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-12 mb-3">
+
+                        <label class="form-label">
+                            Description
+                        </label>
+
+                        <textarea class="form-control" rows="3" id="habitDescription"></textarea>
+
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+
+                    Add Habit
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+    <!-- HABITS SECTION -->
+
+    <section class="container mb-5">
+
+        <h2 class="text-center mb-4">
+            My Habits
+        </h2>
+
+        <div class="row" id="habitList">
+
+            <!-- Habit Cards Will Show Here -->
+
+        </div>
+
+    </section>
+
+    <!-- Bootstrap JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- JS -->
+
     <script src="app.js"></script>
+
 </body>
 </html>

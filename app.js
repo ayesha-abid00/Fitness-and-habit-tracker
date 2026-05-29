@@ -2,11 +2,92 @@ const habitForm = document.getElementById("habitForm");
 
 const habitList = document.getElementById("habitList");
 
-habitForm.addEventListener("submit", function(e){
+const API_URL = "http://localhost:3000/habits";
+
+
+// GET HABITS
+
+async function fetchHabits(){
+
+    try{
+
+        const response = await fetch(API_URL);
+
+        const habits = await response.json();
+
+        habitList.innerHTML = "";
+
+        habits.forEach((habit) => {
+
+            displayHabit(habit);
+
+        });
+
+    }
+
+    catch(error){
+
+        alert("Error loading habits");
+
+    }
+
+}
+
+
+// DISPLAY HABIT
+
+function displayHabit(habit){
+
+    const card = document.createElement("div");
+
+    card.classList.add("col-md-4", "mb-4");
+
+    card.innerHTML = `
+
+        <div class="card shadow habit-card h-100">
+
+            <div class="card-body">
+
+                <h3 class="card-title">
+                    ${habit.name}
+                </h3>
+
+                <p>
+                    <strong>Category:</strong>
+                    ${habit.category}
+                </p>
+
+                <p>
+                    <strong>Target Days:</strong>
+                    ${habit.days}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    ${habit.status}
+                </p>
+
+                <p>
+                    <strong>Description:</strong>
+                    ${habit.description}
+                </p>
+
+            </div>
+
+        </div>
+
+    `;
+
+    habitList.appendChild(card);
+
+}
+
+
+// ADD HABIT
+
+habitForm.addEventListener("submit", async function(e){
 
     e.preventDefault();
-
-    // GET VALUES
 
     const habitName = document.getElementById("habitName").value;
 
@@ -17,6 +98,7 @@ habitForm.addEventListener("submit", function(e){
     const habitStatus = document.getElementById("habitStatus").value;
 
     const habitDescription = document.getElementById("habitDescription").value;
+
 
     // VALIDATION
 
@@ -31,56 +113,62 @@ habitForm.addEventListener("submit", function(e){
         alert("Please fill all fields");
 
         return;
+
     }
 
-    // CREATE CARD
 
-    const card = document.createElement("div");
+    // NEW HABIT OBJECT
 
-    card.classList.add("col-md-4", "mb-4");
+    const newHabit = {
 
-    card.innerHTML = `
+        name: habitName,
+        category: habitCategory,
+        days: targetDays,
+        status: habitStatus,
+        description: habitDescription
 
-        <div class="card shadow habit-card h-100">
+    };
 
-            <div class="card-body">
 
-                <h3 class="card-title">
-                    ${habitName}
-                </h3>
+    try{
 
-                <p>
-                    <strong>Category:</strong>
-                    ${habitCategory}
-                </p>
+        const response = await fetch(API_URL, {
 
-                <p>
-                    <strong>Target Days:</strong>
-                    ${targetDays}
-                </p>
+            method: "POST",
 
-                <p>
-                    <strong>Status:</strong>
-                    ${habitStatus}
-                </p>
+            headers: {
 
-                <p>
-                    <strong>Description:</strong>
-                    ${habitDescription}
-                </p>
+                "Content-Type": "application/json"
 
-            </div>
+            },
 
-        </div>
+            body: JSON.stringify(newHabit)
 
-    `;
+        });
 
-    // SHOW CARD
 
-    habitList.appendChild(card);
+        if(!response.ok){
 
-    // RESET FORM
+            throw new Error("Failed to add");
 
-    habitForm.reset();
+        }
+
+
+        fetchHabits();
+
+        habitForm.reset();
+
+    }
+
+    catch(error){
+
+        alert("Error adding habit");
+
+    }
 
 });
+
+
+// LOAD HABITS ON PAGE LOAD
+
+fetchHabits();

@@ -1,13 +1,4 @@
 {
-  "habits": [
-    {
-      "name": "Morning walk",
-      "category": "Fitness",
-      "days": "30",
-      "status": "Active",
-      "description": "Daily workout",
-      "id": "5mpeEc4cg00"
-    }
-  ],
+  "habits": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

@@ -29,4 +29,10 @@ body{
 
 .habit-card:hover{
     transform: translateY(-5px);
+}.admin-card{
+    transition:0.3s;
+}
+
+.admin-card:hover{
+    transform:translateY(-5px);
 }

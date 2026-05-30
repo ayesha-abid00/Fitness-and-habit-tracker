@@ -1,21 +1,24 @@
-const adminHabitList = document.getElementById("adminHabitList");
-
+const statusFilter = document.getElementById("statusFilter");
+const totalHabits = document.getElementById("totalHabits");
+const completedHabits = document.getElementById("completedHabits");
+const activeHabits = document.getElementById("activeHabits");
 const API_URL = "http://localhost:3000/habits";
 
+let allHabits = [];
 
-// LOAD ALL HABITS
+// Load Habits
 
-async function loadHabits(){
+async function loadHabits() {
 
-    try{
+    try {
 
         const response = await fetch(API_URL);
 
-        const habits = await response.json();
+        allHabits = await response.json();
 
         adminHabitList.innerHTML = "";
 
-        habits.forEach(habit => {
+        allHabits.forEach(habit => {
 
             displayHabit(habit);
 
@@ -23,7 +26,7 @@ async function loadHabits(){
 
     }
 
-    catch(error){
+    catch (error) {
 
         alert("Failed to load habits");
 
@@ -31,14 +34,13 @@ async function loadHabits(){
 
 }
 
+// Display Habit
 
-// DISPLAY HABIT
-
-function displayHabit(habit){
+function displayHabit(habit) {
 
     const card = document.createElement("div");
 
-    card.classList.add("col-md-4","mb-4");
+    card.classList.add("col-md-4", "mb-4");
 
     card.innerHTML = `
 
@@ -49,19 +51,41 @@ function displayHabit(habit){
             <h4>${habit.name}</h4>
 
             <p>
-            Category: ${habit.category}
+                Category: ${habit.category}
             </p>
 
             <p>
-            Status: ${habit.status}
+                <strong>Status:</strong>
+
+                <span class="${
+                    habit.status === "Completed"
+                    ? "text-success"
+                    : "text-warning"
+                }">
+
+                    ${habit.status}
+
+                </span>
+
             </p>
 
-            <button
-                class="btn btn-danger"
-                onclick="deleteHabit('${habit.id}')"
-            >
-                Delete
-            </button>
+            <div class="d-flex gap-2">
+
+                <button
+                    class="btn btn-success"
+                    onclick="completeHabit('${habit.id}')"
+                >
+                    Mark Complete
+                </button>
+
+                <button
+                    class="btn btn-danger"
+                    onclick="deleteHabit('${habit.id}')"
+                >
+                    Delete
+                </button>
+
+            </div>
 
         </div>
 
@@ -71,45 +95,143 @@ function displayHabit(habit){
 
     adminHabitList.appendChild(card);
 
-}async function deleteHabit(id){
+}
+
+// Delete Habit
+
+async function deleteHabit(id) {
 
     const confirmation = confirm(
         "Are you sure you want to delete this habit?"
     );
 
-    if(!confirmation){
+    if (!confirmation) {
 
         return;
 
     }
 
-    try{
+    try {
 
-        const response = await fetch(
+        await fetch(`${API_URL}/${id}`, {
 
-            `${API_URL}/${id}`,
+            method: "DELETE"
 
-            {
-                method:"DELETE"
-            }
-
-        );
-
-        if(!response.ok){
-
-            throw new Error();
-
-        }
+        });
 
         loadHabits();
 
     }
 
-    catch(error){
+    catch (error) {
 
         alert("Delete failed");
 
     }
 
 }
+
+// Mark Complete
+
+async function completeHabit(id) {
+
+    try {
+
+        await fetch(`${API_URL}/${id}`, {
+
+            method: "PATCH",
+
+            headers: {
+
+                "Content-Type": "application/json"
+
+            },
+
+            body: JSON.stringify({
+
+                status: "Completed"
+
+            })
+
+        });
+
+        loadHabits();
+
+    }
+
+    catch (error) {
+
+        alert("Update failed");
+
+    }
+
+}
+
+// Filter Function
+
+function filterHabits() {
+
+    const searchText =
+        searchInput.value.toLowerCase();
+
+    const category =
+        categoryFilter.value;
+
+    const status =
+        statusFilter.value;
+
+    adminHabitList.innerHTML = "";
+
+    const filteredHabits =
+        allHabits.filter(habit => {
+
+            const matchSearch =
+                habit.name.toLowerCase()
+                .includes(searchText);
+
+            const matchCategory =
+                category === ""
+                ||
+                habit.category === category;
+
+            const matchStatus =
+                status === ""
+                ||
+                habit.status === status;
+
+            return (
+                matchSearch &&
+                matchCategory &&
+                matchStatus
+            );
+
+        });
+
+    filteredHabits.forEach(habit => {
+
+        displayHabit(habit);
+
+    });
+
+}
+
+// Events
+
+searchInput.addEventListener(
+    "input",
+    filterHabits
+);
+
+categoryFilter.addEventListener(
+    "change",
+    filterHabits
+);
+
+statusFilter.addEventListener(
+    "change",
+    filterHabits
+);
+
+// Load Data
+
 loadHabits();

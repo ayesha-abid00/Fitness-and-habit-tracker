@@ -7,21 +7,24 @@ body{
 
 .hero-section{
     height: 80vh;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    background: linear-gradient(
+        rgba(0,0,0,0.6),
+        rgba(0,0,0,0.6)
+    ),
     url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438');
 
     background-size: cover;
     background-position: center;
 }
 
-/* CARD */
+/* GENERAL CARD */
 
 .card{
     border: none;
     border-radius: 15px;
 }
 
-/* HABIT CARD */
+/* USER HABIT CARD */
 
 .habit-card{
     transition: 0.3s;
@@ -29,10 +32,41 @@ body{
 
 .habit-card:hover{
     transform: translateY(-5px);
-}.admin-card{
-    transition:0.3s;
+}
+
+/* ADMIN CARD */
+
+.admin-card{
+    transition: 0.3s;
+    border-radius: 15px;
 }
 
 .admin-card:hover{
-    transform:translateY(-5px);
+    transform: translateY(-5px);
+}
+
+/* BUTTONS */
+
+.btn{
+    border-radius: 10px;
+}
+
+/* ADMIN TITLE */
+
+h1{
+    font-weight: bold;
+}
+
+/* SEARCH & FILTERS */
+
+.form-control,
+.form-select{
+    border-radius: 10px;
+}
+
+/* CARD TEXT */
+
+.card-body h4{
+    font-weight: bold;
+    margin-bottom: 15px;
 }

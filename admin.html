@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div class="container mt-5">
@@ -16,6 +17,67 @@
     <h1 class="text-center text-danger mb-4">
         Admin Panel
     </h1>
+
+    <!-- Statistics Cards -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+            <div class="card shadow text-center p-3">
+                <h5>Total Habits</h5>
+                <h2 id="totalHabits">0</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow text-center p-3">
+                <h5>Completed</h5>
+                <h2 id="completedHabits">0</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow text-center p-3">
+                <h5>Active</h5>
+                <h2 id="activeHabits">0</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Search & Filters -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-4 mb-2">
+            <input
+                type="text"
+                id="searchInput"
+                class="form-control"
+                placeholder="Search Habit..."
+            >
+        </div>
+
+        <div class="col-md-4 mb-2">
+            <select id="categoryFilter" class="form-select">
+                <option value="">All Categories</option>
+                <option value="Fitness">Fitness</option>
+                <option value="Study">Study</option>
+                <option value="Health">Health</option>
+            </select>
+        </div>
+
+        <div class="col-md-4 mb-2">
+            <select id="statusFilter" class="form-select">
+                <option value="">All Status</option>
+                <option value="Active">Active</option>
+                <option value="Completed">Completed</option>
+            </select>
+        </div>
+
+    </div>
+
+    <!-- Habit Cards -->
 
     <div class="row" id="adminHabitList">
 

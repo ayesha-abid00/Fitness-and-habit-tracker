@@ -1,10 +1,35 @@
+const adminHabitList = document.getElementById("adminHabitList");
+
+const searchInput = document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
 const statusFilter = document.getElementById("statusFilter");
+
 const totalHabits = document.getElementById("totalHabits");
 const completedHabits = document.getElementById("completedHabits");
 const activeHabits = document.getElementById("activeHabits");
+
 const API_URL = "http://localhost:3000/habits";
 
 let allHabits = [];
+
+// Statistics
+
+function updateStats() {
+
+    const total = allHabits.length;
+
+    const completed = allHabits.filter(
+        habit => habit.status === "Completed"
+    ).length;
+
+    const active = allHabits.filter(
+        habit => habit.status === "Active"
+    ).length;
+
+    totalHabits.textContent = total;
+    completedHabits.textContent = completed;
+    activeHabits.textContent = active;
+}
 
 // Load Habits
 
@@ -24,11 +49,15 @@ async function loadHabits() {
 
         });
 
+        updateStats();
+
     }
 
     catch (error) {
 
         alert("Failed to load habits");
+
+        console.error(error);
 
     }
 
@@ -44,52 +73,53 @@ function displayHabit(habit) {
 
     card.innerHTML = `
 
-    <div class="card shadow admin-card">
+        <div class="card shadow admin-card">
 
-        <div class="card-body">
+            <div class="card-body">
 
-            <h4>${habit.name}</h4>
+                <h4>${habit.name}</h4>
 
-            <p>
-                Category: ${habit.category}
-            </p>
+                <p>
+                    <strong>Category:</strong>
+                    ${habit.category}
+                </p>
 
-            <p>
-                <strong>Status:</strong>
+                <p>
+                    <strong>Status:</strong>
 
-                <span class="${
-                    habit.status === "Completed"
-                    ? "text-success"
-                    : "text-warning"
-                }">
+                    <span class="${
+                        habit.status === "Completed"
+                        ? "text-success"
+                        : "text-warning"
+                    }">
 
-                    ${habit.status}
+                        ${habit.status}
 
-                </span>
+                    </span>
 
-            </p>
+                </p>
 
-            <div class="d-flex gap-2">
+                <div class="d-flex gap-2">
 
-                <button
-                    class="btn btn-success"
-                    onclick="completeHabit('${habit.id}')"
-                >
-                    Mark Complete
-                </button>
+                    <button
+                        class="btn btn-success"
+                        onclick="completeHabit('${habit.id}')"
+                    >
+                        Mark Complete
+                    </button>
 
-                <button
-                    class="btn btn-danger"
-                    onclick="deleteHabit('${habit.id}')"
-                >
-                    Delete
-                </button>
+                    <button
+                        class="btn btn-danger"
+                        onclick="deleteHabit('${habit.id}')"
+                    >
+                        Delete
+                    </button>
+
+                </div>
 
             </div>
 
         </div>
-
-    </div>
 
     `;
 
@@ -127,11 +157,13 @@ async function deleteHabit(id) {
 
         alert("Delete failed");
 
+        console.error(error);
+
     }
 
 }
 
-// Mark Complete
+// Complete Habit
 
 async function completeHabit(id) {
 
@@ -142,9 +174,7 @@ async function completeHabit(id) {
             method: "PATCH",
 
             headers: {
-
                 "Content-Type": "application/json"
-
             },
 
             body: JSON.stringify({
@@ -163,11 +193,13 @@ async function completeHabit(id) {
 
         alert("Update failed");
 
+        console.error(error);
+
     }
 
 }
 
-// Filter Function
+// Search + Filters
 
 function filterHabits() {
 
@@ -232,6 +264,6 @@ statusFilter.addEventListener(
     filterHabits
 );
 
-// Load Data
+// Start App
 
 loadHabits();

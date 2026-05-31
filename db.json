@@ -1,4 +1,22 @@
 {
-  "habits": [],
-  "$schema": "./node_modules/json-server/schema.json"
+  "habits": [
+    {
+      "id": "1",
+      "name": "Morning Walk",
+      "category": "Fitness",
+      "status": "Active"
+    },
+    {
+      "id": "2",
+      "name": "Study JavaScript",
+      "category": "Study",
+      "status": "Completed"
+    },
+    {
+      "id": "3",
+      "name": "Drink Water",
+      "category": "Health",
+      "status": "Active"
+    }
+  ]
 }

@@ -7,13 +7,13 @@ const statusFilter = document.getElementById("statusFilter");
 const totalHabits = document.getElementById("totalHabits");
 const completedHabits = document.getElementById("completedHabits");
 const activeHabits = document.getElementById("activeHabits");
+const progressBar = document.getElementById("progressBar");
 
 const API_URL = "http://localhost:3000/habits";
 
 let allHabits = [];
 
 // Statistics
-
 function updateStats() {
 
     const total = allHabits.length;
@@ -29,8 +29,23 @@ function updateStats() {
     totalHabits.textContent = total;
     completedHabits.textContent = completed;
     activeHabits.textContent = active;
-}
 
+    let percentage = 0;
+
+    if(total > 0){
+
+        percentage = Math.round(
+            (completed / total) * 100
+        );
+
+    }
+
+    progressBar.style.width =
+        percentage + "%";
+
+    progressBar.textContent =
+        percentage + "%";
+}
 // Load Habits
 
 async function loadHabits() {

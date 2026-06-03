@@ -78,8 +78,6 @@ async function loadHabits() {
 
 }
 
-// Display Habit
-
 function displayHabit(habit) {
 
     const card = document.createElement("div");
@@ -121,6 +119,13 @@ function displayHabit(habit) {
                         onclick="completeHabit('${habit.id}')"
                     >
                         Mark Complete
+                    </button>
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="editHabit('${habit.id}')"
+                    >
+                        Edit
                     </button>
 
                     <button
@@ -213,7 +218,47 @@ async function completeHabit(id) {
     }
 
 }
+async function editHabit(id){
 
+    const newName = prompt(
+        "Enter new habit name:"
+    );
+
+    if(!newName){
+
+        return;
+
+    }
+
+    try{
+
+        await fetch(`${API_URL}/${id}`,{
+
+            method:"PATCH",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                name:newName
+
+            })
+
+        });
+
+        loadHabits();
+
+    }
+
+    catch(error){
+
+        alert("Edit failed");
+
+    }
+
+}
 // Search + Filters
 
 function filterHabits() {
@@ -228,6 +273,27 @@ function filterHabits() {
         statusFilter.value;
 
     adminHabitList.innerHTML = "";
+    if(allHabits.length === 0){
+
+    adminHabitList.innerHTML = `
+
+        <div class="col-12">
+
+            <div class="alert alert-info text-center">
+
+                No habits found.
+                Add your first habit!
+
+            </div>
+
+        </div>
+
+    `;
+
+    updateStats();
+
+    return;
+}
 
     const filteredHabits =
         allHabits.filter(habit => {

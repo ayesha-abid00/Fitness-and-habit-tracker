@@ -90,3 +90,10 @@ footer{
 .card:hover{
     transform:translateY(-5px);
 }
+.btn{
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:scale(1.05);
+}

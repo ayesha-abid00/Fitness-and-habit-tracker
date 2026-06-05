@@ -51,21 +51,34 @@ function displayHabit(habit){
                 <h3 class="card-title">
                     ${habit.name}
                 </h3>
+<p>
+    <strong>Category:</strong>
 
-                <p>
-                    <strong>Category:</strong>
-                    ${habit.category}
-                </p>
+    <span class="badge bg-primary">
 
+        ${habit.category}
+
+    </span>
+
+</p>
                 <p>
                     <strong>Target Days:</strong>
                     ${habit.days}
                 </p>
+<p>
+    <strong>Status:</strong>
 
-                <p>
-                    <strong>Status:</strong>
-                    ${habit.status}
-                </p>
+    <span class="${
+        habit.status === "Completed"
+        ? "badge bg-success"
+        : "badge bg-warning text-dark"
+    }">
+
+        ${habit.status}
+
+    </span>
+
+</p>
 
                 <p>
                     <strong>Description:</strong>
@@ -153,10 +166,11 @@ habitForm.addEventListener("submit", async function(e){
 
         }
 
+fetchHabits();
 
-        fetchHabits();
+habitForm.reset();
 
-        habitForm.reset();
+alert("Habit added successfully!");
 
     }
 

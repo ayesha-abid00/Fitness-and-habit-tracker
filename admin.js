@@ -58,11 +58,36 @@ async function loadHabits() {
 
         adminHabitList.innerHTML = "";
 
-        allHabits.forEach(habit => {
+        if(allHabits.length === 0){
 
-            displayHabit(habit);
+    adminHabitList.innerHTML = `
 
-        });
+        <div class="col-12">
+
+            <div class="alert alert-info text-center">
+
+                No habits found.
+                Add your first habit!
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+else{
+
+    allHabits.forEach(habit => {
+
+        displayHabit(habit);
+
+    });
+
+}
+
+updateStats();
 
         updateStats();
 
@@ -220,14 +245,35 @@ async function completeHabit(id) {
 }
 async function editHabit(id){
 
+    const habit = allHabits.find(
+        h => h.id == id
+    );
+
     const newName = prompt(
-        "Enter new habit name:"
+        "Edit Habit Name:",
+        habit.name
     );
 
     if(!newName){
-
         return;
+    }
 
+    const newCategory = prompt(
+        "Edit Category (Fitness/Study/Health):",
+        habit.category
+    );
+
+    if(!newCategory){
+        return;
+    }
+
+    const newStatus = prompt(
+        "Edit Status (Active/Completed):",
+        habit.status
+    );
+
+    if(!newStatus){
+        return;
     }
 
     try{
@@ -242,11 +288,15 @@ async function editHabit(id){
 
             body:JSON.stringify({
 
-                name:newName
+                name:newName,
+                category:newCategory,
+                status:newStatus
 
             })
 
         });
+
+        alert("Habit updated successfully!");
 
         loadHabits();
 
@@ -257,74 +307,6 @@ async function editHabit(id){
         alert("Edit failed");
 
     }
-
-}
-// Search + Filters
-
-function filterHabits() {
-
-    const searchText =
-        searchInput.value.toLowerCase();
-
-    const category =
-        categoryFilter.value;
-
-    const status =
-        statusFilter.value;
-
-    adminHabitList.innerHTML = "";
-    if(allHabits.length === 0){
-
-    adminHabitList.innerHTML = `
-
-        <div class="col-12">
-
-            <div class="alert alert-info text-center">
-
-                No habits found.
-                Add your first habit!
-
-            </div>
-
-        </div>
-
-    `;
-
-    updateStats();
-
-    return;
-}
-
-    const filteredHabits =
-        allHabits.filter(habit => {
-
-            const matchSearch =
-                habit.name.toLowerCase()
-                .includes(searchText);
-
-            const matchCategory =
-                category === ""
-                ||
-                habit.category === category;
-
-            const matchStatus =
-                status === ""
-                ||
-                habit.status === status;
-
-            return (
-                matchSearch &&
-                matchCategory &&
-                matchStatus
-            );
-
-        });
-
-    filteredHabits.forEach(habit => {
-
-        displayHabit(habit);
-
-    });
 
 }
 

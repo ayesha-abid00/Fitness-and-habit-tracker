@@ -11,20 +11,6 @@
       "name": "Study JavaScript",
       "category": "Study",
       "status": "Completed"
-    },
-    {
-      "id": "3",
-      "name": "Drink Water",
-      "category": "Health",
-      "status": "Completed"
-    },
-    {
-      "name": "Morning walk",
-      "category": "Fitness",
-      "days": "30",
-      "status": "Completed",
-      "description": "walk every morning",
-      "id": "xPlYj1RWjDQ"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

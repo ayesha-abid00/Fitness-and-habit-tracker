@@ -14,6 +14,7 @@ const API_URL = "http://localhost:3000/habits";
 let allHabits = [];
 
 // Statistics
+
 function updateStats() {
 
     const total = allHabits.length;
@@ -45,7 +46,9 @@ function updateStats() {
 
     progressBar.textContent =
         percentage + "%";
+
 }
+
 // Load Habits
 
 async function loadHabits() {
@@ -60,40 +63,38 @@ async function loadHabits() {
 
         if(allHabits.length === 0){
 
-    adminHabitList.innerHTML = `
+            adminHabitList.innerHTML = `
 
-        <div class="col-12">
+                <div class="col-12">
 
-            <div class="alert alert-info text-center">
+                    <div class="alert alert-info text-center">
 
-                No habits found.
-                Add your first habit!
+                        No habits found.
+                        Add your first habit!
 
-            </div>
+                    </div>
 
-        </div>
+                </div>
 
-    `;
+            `;
 
-}
+        }
 
-else{
+        else{
 
-    allHabits.forEach(habit => {
+            allHabits.forEach(habit => {
 
-        displayHabit(habit);
+                displayHabit(habit);
 
-    });
+            });
 
-}
-
-updateStats();
+        }
 
         updateStats();
 
     }
 
-    catch (error) {
+    catch(error){
 
         alert("Failed to load habits");
 
@@ -103,11 +104,13 @@ updateStats();
 
 }
 
-function displayHabit(habit) {
+// Display Habit
+
+function displayHabit(habit){
 
     const card = document.createElement("div");
 
-    card.classList.add("col-md-4", "mb-4");
+    card.classList.add("col-md-4","mb-4");
 
     card.innerHTML = `
 
@@ -174,23 +177,23 @@ function displayHabit(habit) {
 
 // Delete Habit
 
-async function deleteHabit(id) {
+async function deleteHabit(id){
 
     const confirmation = confirm(
         "Are you sure you want to delete this habit?"
     );
 
-    if (!confirmation) {
+    if(!confirmation){
 
         return;
 
     }
 
-    try {
+    try{
 
-        await fetch(`${API_URL}/${id}`, {
+        await fetch(`${API_URL}/${id}`,{
 
-            method: "DELETE"
+            method:"DELETE"
 
         });
 
@@ -198,11 +201,9 @@ async function deleteHabit(id) {
 
     }
 
-    catch (error) {
+    catch(error){
 
         alert("Delete failed");
-
-        console.error(error);
 
     }
 
@@ -210,21 +211,21 @@ async function deleteHabit(id) {
 
 // Complete Habit
 
-async function completeHabit(id) {
+async function completeHabit(id){
 
-    try {
+    try{
 
-        await fetch(`${API_URL}/${id}`, {
+        await fetch(`${API_URL}/${id}`,{
 
-            method: "PATCH",
+            method:"PATCH",
 
-            headers: {
-                "Content-Type": "application/json"
+            headers:{
+                "Content-Type":"application/json"
             },
 
-            body: JSON.stringify({
+            body:JSON.stringify({
 
-                status: "Completed"
+                status:"Completed"
 
             })
 
@@ -234,15 +235,16 @@ async function completeHabit(id) {
 
     }
 
-    catch (error) {
+    catch(error){
 
         alert("Update failed");
-
-        console.error(error);
 
     }
 
 }
+
+// Edit Habit
+
 async function editHabit(id){
 
     const habit = allHabits.find(
@@ -307,6 +309,54 @@ async function editHabit(id){
         alert("Edit failed");
 
     }
+
+}
+
+// Search & Filters
+
+function filterHabits(){
+
+    const searchText =
+        searchInput.value.toLowerCase();
+
+    const category =
+        categoryFilter.value;
+
+    const status =
+        statusFilter.value;
+
+    adminHabitList.innerHTML = "";
+
+    const filteredHabits =
+        allHabits.filter(habit => {
+
+            const matchSearch =
+                habit.name.toLowerCase()
+                .includes(searchText);
+
+            const matchCategory =
+                category === ""
+                ||
+                habit.category === category;
+
+            const matchStatus =
+                status === ""
+                ||
+                habit.status === status;
+
+            return (
+                matchSearch &&
+                matchCategory &&
+                matchStatus
+            );
+
+        });
+
+    filteredHabits.forEach(habit => {
+
+        displayHabit(habit);
+
+    });
 
 }
 
